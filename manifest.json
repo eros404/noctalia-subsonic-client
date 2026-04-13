@@ -1,0 +1,29 @@
+{
+    "id": "subsonic-client",
+    "name": "Subsonic Client",
+    "version": "0.1.0",
+    "minNoctaliaVersion": "3.6.0",
+    "author": "Eros404",
+    "license": "MIT",
+    "repository": "TODO",
+    "description": "TODO",
+    "entryPoints": {
+        "main": "Main.qml",
+        "launcherProvider": "LauncherProvider.qml",
+        "settings": "Settings.qml"
+    },
+    "dependencies": {
+        "plugins": []
+    },
+    "metadata": {
+        "commandPrefix": "sonic",
+        "defaultSettings": {
+            "serverUrl": "",
+            "userName": "",
+            "password": "",
+            "searchArtists": 3,
+            "searchAlbums": 3,
+            "searchSongs": 6
+        }
+    }
+}
