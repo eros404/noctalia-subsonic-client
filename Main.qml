@@ -18,17 +18,20 @@ Item {
           "--force-window=no",
           "--audio-display=no",
           `--input-ipc-server=${Mpv.SOCKET_PATH}`,
-          "--title",
-          "Noctalia subsonic-client"
+          "--title=Noctalia subsonic-client",
       ]
       running: true   // start immediately when Main.qml loads
 
       // If mpv crashes or is killed, restart it after a short delay
       onRunningChanged: {
-          if (!running) restartTimer.restart()
+          if (!running) {
+            Logger.w("SubsonicClient", "Restarting mpv process");
+            restartTimer.restart()
+          }
       }
 
       onExited: function (exitCode) {
+        Logger.w("SubsonicClient", "mpv process exited with code " + exitCode);
         var stderrText = String(mpvProcess.stderr.text || "").trim();
         if (stderrText.length > 0 && exitCode !== 0) {
           Logger.e("SubsonicClient", stderrText);
