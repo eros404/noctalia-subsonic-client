@@ -5,7 +5,7 @@ export function commandInit(commandName, ...params) {
         command: [
             "bash",
             "-c",
-            `echo '${JSON.stringify(input)}' | socat - ${SOCKET_PATH}`.replace(/"/g, '\\"')
+            `echo '${JSON.stringify(input)}' | socat - ${SOCKET_PATH}`
         ]
     }
 }
