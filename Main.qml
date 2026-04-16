@@ -5,6 +5,7 @@ import qs.Commons
 import "Mpv.mjs" as Mpv
 
 Item {
+  id: root
   property var pluginApi: null
 
   Process {
@@ -57,7 +58,28 @@ Item {
     }
   }
 
+  Timer {
+    id: commandTimer
+    interval: 500
+    running: false
+    repeat: false
+    onTriggered: _processQueue()
+  }
+
+  readonly property var commandQueue: []
+
+  function _processQueue() {
+    if (commandQueue.length === 0) return;
+    const command = commandQueue.shift()
+    playSong(command[0], command[1])
+  }
+
   function playSong(url, mode) {
+    if (mpvCommand.running) {
+      commandQueue.push([url, mode])
+      commandTimer.start()
+      return;
+    }
     mpvCommand.exec(Mpv.commandInit("loadfile", url, mode ?? "replace"))
   }
 }

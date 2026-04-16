@@ -52,21 +52,9 @@ Item {
     _loading = true
     _client.search3(query).then(function(data) {
       _results = [
-        ...data.artists.map(a  => ({
-          name:         a.name,
-          description:  `${a.albumCount ?? 0} albums`,
-          icon:         "microphone-2",
-          isTablerIcon: true,
-          onActivate:   function() { Logger.i("browse artist", a.id) }
-        })),
-        ...data.albums.map(al => ({
-          name:         al.name,
-          description:  al.artist ?? "",
-          icon:         "vinyl",
-          isTablerIcon: true,
-          onActivate:   function() { Logger.i("browse album", al.id) }
-        })),
-        ...data.songs.map(s  => new Launcher.trackItem(s, root))
+        ...data.artists.map(a  => Launcher.artistItem(a, root)),
+        ...data.albums.map(al => Launcher.albumItem(al, root)),
+        ...data.songs.map(s  => Launcher.songItem(s, root))
       ]
       _loading = false
       if (launcher) launcher.updateResults()
@@ -118,5 +106,17 @@ Item {
     }]
 
     return _results
+  }
+
+  function updateResults(results) {
+    _results = results
+    launcher?.updateResults()
+  }
+
+  function playSong(song, mode) {
+    launcher?.close()
+    pluginApi?.mainInstance?.playSong(
+        _client.streamUrl(song.id),
+        mode)
   }
 }
