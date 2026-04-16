@@ -57,7 +57,7 @@ Item {
     }
   }
 
-  function playSong(url) {
-    mpvCommand.exec(Mpv.commandInit("loadfile", url, "replace"))
+  function playSong(url, mode) {
+    mpvCommand.exec(Mpv.commandInit("loadfile", url, mode ?? "replace"))
   }
 }

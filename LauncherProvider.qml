@@ -2,6 +2,7 @@ import QtQuick
 import qs.Commons
 import "Subsonic.mjs" as Subsonic
 import "Settings.mjs" as Settings
+import "Launcher.mjs" as Launcher
 
 Item {
   id: root
@@ -65,16 +66,7 @@ Item {
           isTablerIcon: true,
           onActivate:   function() { Logger.i("browse album", al.id) }
         })),
-        ...data.songs.map(s  => ({
-          name:         s.title,
-          description:  `${s.artist ?? ""} — ${s.album ?? ""}`,
-          icon:         "music",
-          isTablerIcon: true,
-          onActivate:   function() {
-              launcher?.close()
-              pluginApi?.mainInstance?.playSong(_client.streamUrl(s.id))
-          }
-        })),
+        ...data.songs.map(s  => new Launcher.trackItem(s, root))
       ]
       _loading = false
       if (launcher) launcher.updateResults()

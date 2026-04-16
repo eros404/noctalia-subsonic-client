@@ -1,3 +1,5 @@
+export const SOCKET_PATH = "/tmp/noctalia-subsonic-mpv.sock"
+
 export function commandInit(commandName, ...params) {
     const input = { command: [commandName, ...params] }
     return {
@@ -9,5 +11,3 @@ export function commandInit(commandName, ...params) {
         ]
     }
 }
-
-export const SOCKET_PATH = "/tmp/noctalia-subsonic-mpv.sock"
