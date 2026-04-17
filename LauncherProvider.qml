@@ -1,7 +1,5 @@
 import QtQuick
 import qs.Commons
-import "Subsonic.mjs" as Subsonic
-import "Settings.mjs" as Settings
 import "Launcher.mjs" as Launcher
 
 Item {
@@ -14,8 +12,7 @@ Item {
 
   readonly property string command: ">sonic" 
 
-  readonly property var _settings: new Settings.Manager(pluginApi)
-  readonly property var _client: new Subsonic.SubsonicClient(_settings)
+  readonly property var _client: pluginApi.mainInstance.client
 
   property var    _results:   []
   property bool   _loading:   false

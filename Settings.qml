@@ -2,22 +2,21 @@ import QtQuick
 import QtQuick.Layouts
 import qs.Commons
 import qs.Widgets
-import "Settings.mjs" as Settings
 
 ColumnLayout {
   id: root
 
   property var pluginApi: null
-  readonly property var _settings: new Settings.Manager(pluginApi)
+  readonly property var _settings: pluginApi.mainInstance.settings
 
   // Local state
-  property string serverUrl: _settings.serverUrl()
-  property string userName: _settings.userName()
-  property string password: _settings.password()
+  property string serverUrl: _settings.serverUrl
+  property string userName: _settings.userName
+  property string password: _settings.password
 
-  property string searchArtists: _settings.searchArtists()
-  property string searchAlbums: _settings.searchAlbums()
-  property string searchSongs: _settings.searchSongs()
+  property string searchArtists: _settings.searchArtists
+  property string searchAlbums: _settings.searchAlbums
+  property string searchSongs: _settings.searchSongs
 
   spacing: Style.marginM
 
@@ -106,15 +105,16 @@ ColumnLayout {
 
   // Save function - called by the dialog
   function saveSettings() {
-    _settings.serverUrl(root.serverUrl)
-    _settings.userName(root.userName)
-    _settings.password(root.password)
+    _settings.serverUrl = root.serverUrl
+    _settings.userName = root.userName
+    _settings.password = root.password
 
-    _settings.searchArtists(root.searchArtists)
-    _settings.searchAlbums(root.searchAlbums)
-    _settings.searchSongs(root.searchSongs)
+    _settings.searchArtists = root.searchArtists
+    _settings.searchAlbums = root.searchAlbums
+    _settings.searchSongs = root.searchSongs
 
     _settings.save()
+    pluginApi?.mainInstance?.client.refreshSettings()
 
     Logger.i("SubsonicClient", "Settings saved successfully")
   }

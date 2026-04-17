@@ -3,10 +3,15 @@ import Quickshell.Io
 import qs.Services.UI
 import qs.Commons
 import "Mpv.mjs" as Mpv
+import "Subsonic.mjs" as Subsonic
+import "Settings.mjs" as Settings
 
 Item {
   id: root
   property var pluginApi: null
+
+  readonly property var settings: new Settings.Manager(pluginApi)
+  readonly property var client: new Subsonic.SubsonicClient(settings)
 
   Process {
       id: mpvProcess

@@ -10,18 +10,15 @@ function makeSalt(len = 8) {
 export class SubsonicClient {
     constructor(settingsManager) {
         this._settings = settingsManager
-        this._baseUrl = settingsManager.serverUrl()
-        this._user = settingsManager.userName()
-        this._password = settingsManager.password()
-        this.invalid = !this._baseUrl || !this._user || !this._password
+        this.refreshSettings()
     }
 
     search3(query) {
         return this._get("search3", {
             query,
-            artistCount: this._settings.searchArtists(),
-            albumCount: this._settings.searchAlbums(),
-            songCount: this._settings.searchSongs(),
+            artistCount: this._settings.searchArtists,
+            albumCount: this._settings.searchAlbums,
+            songCount: this._settings.searchSongs,
         }).then(resp => {
             const sr = resp.searchResult3 ?? {}
             return {
@@ -88,5 +85,12 @@ export class SubsonicClient {
             c: "Noctalia Plugin",
             f: "json"
         })
+    }
+
+    refreshSettings() {
+        this._baseUrl = this._settings.serverUrl
+        this._user = this._settings.userName
+        this._password = this._settings.password
+        this.invalid = !this._baseUrl || !this._user || !this._password
     }
 }

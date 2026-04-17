@@ -15,38 +15,48 @@ export class Manager {
     }
 
     save() {
-        return this._pluginApi.saveSettings()
+        this._pluginApi.saveSettings()
     }
 
-    serverUrl(value) {
-        return value
-            ? this._set('serverUrl', value)
-            : this._get('serverUrl')
+    get serverUrl() {
+        return this._get('serverUrl')
     }
-    userName(value) {
-        return value
-            ? this._set('userName', value)
-            : this._get('userName')
-    }
-    password(value) {
-        return value
-            ? this._set('password', value)
-            : this._get('password')
+    set serverUrl(value) {
+        this._set('serverUrl', value)
     }
 
-    searchArtists(value) {
-        return value
-            ? this._set('searchArtists', value)
-            : this._get('searchArtists')
+    get userName() {
+        return this._get('userName')
     }
-    searchAlbums(value) {
-        return value
-            ? this._set('searchAlbums', value)
-            : this._get('searchAlbums')
+    set userName(value) {
+        this._set('userName', value)
     }
-    searchSongs(value) {
-        return value
-            ? this._set('searchSongs', value)
-            : this._get('searchSongs')
+
+    get password() {
+        return this._get('password')
+    }
+    set password(value) {
+        this._set('password', value)
+    }
+
+    get searchArtists() {
+        return this._get('searchArtists')
+    }
+    set searchArtists(value) {
+        this._set('searchArtists', value)
+    }
+
+    get searchAlbums() {
+        return this._get('searchAlbums')
+    }
+    set searchAlbums(value) {
+        this._set('searchAlbums', value)
+    }
+
+    get searchSongs() {
+        return this._get('searchSongs')
+    }
+    set searchSongs(value) {
+        this._set('searchSongs', value)
     }
 }
