@@ -62,8 +62,7 @@ ColumnLayout {
       description: "Number of artists to return from search"
     }
 
-    NSlider {
-      Layout.fillWidth: true
+    NSpinBox {
       from: 0
       to: 100
       value: root.searchArtists
@@ -80,8 +79,7 @@ ColumnLayout {
       description: "Number of albums to return from search"
     }
 
-    NSlider {
-      Layout.fillWidth: true
+    NSpinBox {
       from: 0
       to: 100
       value: root.searchAlbums
@@ -98,8 +96,7 @@ ColumnLayout {
       description: "Number of songs to return from search"
     }
 
-    NSlider {
-      Layout.fillWidth: true
+    NSpinBox {
       from: 0
       to: 100
       value: root.searchSongs
