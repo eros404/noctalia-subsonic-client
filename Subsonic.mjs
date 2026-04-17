@@ -75,22 +75,32 @@ export class SubsonicClient {
     }
 
     _authParams() {
-        var salt = makeSalt(8)
-        var token = Qt.md5(this._password + salt)
-        return new URLSearchParams({
-            u: encodeURIComponent(this._user),
-            t: token,
-            s: salt,
-            v: "1.16.1",
+        const params = new URLSearchParams({
+            v: "1.12.0",
             c: "Noctalia Plugin",
             f: "json"
-        })
+        });
+
+        if (this._user) {
+            params.append('u', this._user)
+        }
+
+        if (this._apiKey) {
+            params.append('apiKey', this._apiKey)
+        } else if (this._password) {
+            var salt = makeSalt(8)
+            params.append('s', salt)
+            params.append('t', Qt.md5(this._password + salt))
+        }
+
+        return params
     }
 
     refreshSettings() {
         this._baseUrl = this._settings.serverUrl
         this._user = this._settings.userName
         this._password = this._settings.password
-        this.invalid = !this._baseUrl || !this._user || !this._password
+        this._apiKey = this._settings.apiKey
+        this.invalid = !this._baseUrl || (!this._apiKey && (!this._user || !this._password))
     }
 }

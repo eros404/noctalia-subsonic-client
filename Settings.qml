@@ -13,6 +13,7 @@ ColumnLayout {
   property string serverUrl: _settings.serverUrl
   property string userName: _settings.userName
   property string password: _settings.password
+  property string apiKey: _settings.apiKey
 
   property string searchArtists: _settings.searchArtists
   property string searchAlbums: _settings.searchAlbums
@@ -44,6 +45,14 @@ ColumnLayout {
     text: root.password
     inputMethodHints: Qt.ImhHiddenText
     onTextChanged: root.password = text
+  }
+
+  NTextInput {
+    Layout.fillWidth: true
+    label: "Api key"
+    text: root.apiKey
+    inputMethodHints: Qt.ImhHiddenText
+    onTextChanged: root.apiKey = text
   }
 
   NDivider {
@@ -108,6 +117,7 @@ ColumnLayout {
     _settings.serverUrl = root.serverUrl
     _settings.userName = root.userName
     _settings.password = root.password
+    _settings.apiKey = root.apiKey
 
     _settings.searchArtists = root.searchArtists
     _settings.searchAlbums = root.searchAlbums

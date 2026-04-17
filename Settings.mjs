@@ -39,6 +39,13 @@ export class Manager {
         this._set('password', value)
     }
 
+    get apiKey() {
+        return this._get('apiKey')
+    }
+    set apiKey(value) {
+        this._set('apiKey', value)
+    }
+
     get searchArtists() {
         return this._get('searchArtists')
     }
