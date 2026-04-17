@@ -1,12 +1,12 @@
 {
     "id": "subsonic-client",
-    "name": "Subsonic Client",
+    "name": "Subsonic",
     "version": "0.1.0",
     "minNoctaliaVersion": "3.6.0",
     "author": "Eros404",
     "license": "MIT",
-    "repository": "TODO",
-    "description": "TODO",
+    "repository": "https://github.com/eros404/noctalia-subsonic-client",
+    "description": "Listen your music hosted on a subsonic compatible server. Provides action for the Noctalia launcher.",
     "entryPoints": {
         "main": "Main.qml",
         "launcherProvider": "LauncherProvider.qml",

@@ -88,7 +88,6 @@ Item {
     }
 
     if (command) {
-      Logger.i("execute command " + command.command[2])
       mpvCommand.exec(command)
     }
 
@@ -98,7 +97,13 @@ Item {
   }
 
   function playSong(url, mode) {
-    runCommand(Mpv.commandInit("loadfile", url, mode ?? "replace"))
+    if (!mode)
+      mode = "replace"
+    
+    if (mode === "replace")
+      clearPlaylist()
+
+    runCommand(Mpv.commandInit("loadfile", url, mode))
   }
   function clearPlaylist() {
     runCommand(Mpv.commandInit("playlist-clear"))

@@ -36,6 +36,10 @@ export class SubsonicClient {
         return this._get("getAlbum", { id: id }).then(resp => resp.album)
     }
 
+    getArtist(id) {
+        return this._get("getArtist", { id: id }).then(resp => resp.artist)
+    }
+
     streamUrl(songId) {
         return this._apiUrl("stream", { id: songId })
     }

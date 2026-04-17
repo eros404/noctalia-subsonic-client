@@ -39,7 +39,7 @@ Item {
     return [{
       "name": command,
       "description": "Search my subsonic server",
-      "icon": "search",
+      "icon": "music",
       "isTablerIcon": true,
       "onActivate": function() {
         launcher.setSearchText(command + " ")
@@ -118,8 +118,5 @@ Item {
     pluginApi?.mainInstance?.playSong(
         _client.streamUrl(song.id),
         mode)
-  }
-  function clearPlaylist() {
-    pluginApi?.mainInstance?.clearPlaylist()
   }
 }

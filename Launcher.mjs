@@ -7,28 +7,17 @@ export function songItem(song, launcherProvider) {
         isTablerIcon: true,
 
         onActivate: () => {
-            launcherProvider.updateResults([{
-                name: "Play",
-                icon: "player-play",
-                isTablerIcon: true,
-                onActivate: () => {
+            launcherProvider.updateResults([
+                playItem(() => {
                     launcherProvider.playSong(song)
-                }
-            }, {
-                name: "Play next",
-                icon: "arrow-forward-up",
-                isTablerIcon: true,
-                onActivate: () => {
+                }),
+                playNextItem(() => {
                     launcherProvider.playSong(song, "insert-next-play")
-                }
-            }, {
-                name: "Append to playlist",
-                icon: "arrow-forward",
-                isTablerIcon: true,
-                onActivate: () => {
+                }),
+                appendPlaylistItem(() => {
                     launcherProvider.playSong(song, "append-play")
-                }
-            }])
+                })
+            ])
         }
     }
 }
@@ -48,18 +37,24 @@ export function albumItem(album, launcherProvider) {
                     return;
                 }
 
-                launcherProvider.updateResults([{
-                    name: "Play",
-                    icon: "player-play",
-                    isTablerIcon: true,
-                    onActivate: () => {
-                        launcherProvider.clearPlaylist()
+                launcherProvider.updateResults([
+                    playItem(() => {
                         album.song.forEach((song, i) => {
                             launcherProvider.playSong(song, i === 0 ? "replace" : "append")
                         })
-                    }
-                },
-                ...album.song.map(song => songItem(song, launcherProvider))])
+                    }),
+                    playNextItem(() => {
+                        album.song.forEach((song) => {
+                            launcherProvider.playSong(song, "insert-next-play")
+                        })
+                    }),
+                    appendPlaylistItem(() => {
+                        album.song.forEach((song) => {
+                            launcherProvider.playSong(song, "append-play")
+                        })
+                    }),
+                    ...album.song.map(song => songItem(song, launcherProvider))
+                ])
             })
         }
     }
@@ -72,5 +67,43 @@ export function artistItem(artist, launcherProvider) {
 
         icon: "microphone-2",
         isTablerIcon: true,
+
+        onActivate: () => {
+            launcherProvider._client.getArtist(artist.id).then(artist => {
+                if (!artist.album) {
+                    launcherProvider.updateResults([])
+                    return;
+                }
+
+                launcherProvider.updateResults([
+                    ...artist.album.map(album => albumItem(album, launcherProvider))
+                ])
+            })
+        }
+    }
+}
+
+function playItem(onActivate) {
+    return {
+        name: "Play",
+        icon: "player-play",
+        isTablerIcon: true,
+        onActivate: onActivate
+    }
+}
+function playNextItem(onActivate) {
+    return {
+        name: "Play next",
+        icon: "arrow-forward-up",
+        isTablerIcon: true,
+        onActivate: onActivate
+    }
+}
+function appendPlaylistItem(onActivate) {
+    return {
+        name: "Append to playlist",
+        icon: "arrow-forward",
+        isTablerIcon: true,
+        onActivate: onActivate
     }
 }
