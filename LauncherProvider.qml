@@ -12,10 +12,11 @@ Item {
 
   readonly property string command: ">sonic" 
 
-  readonly property var _client: pluginApi.mainInstance.client
+  readonly property var client: pluginApi.mainInstance.client
+  readonly property var settings: pluginApi.mainInstance.settings
 
-  property var    _results:   []
-  property bool   _loading:   false
+  property var _results: []
+  property bool _loading: false
   property string _lastQuery: ""
 
   // ── Debounce timer ────────────────────────────────────────────────
@@ -47,7 +48,7 @@ Item {
 
   function _runSearch(query) {
     _loading = true
-    _client.search3(query).then(function(data) {
+    client.search3(query).then(function(data) {
       _results = [
         ...data.artists.map(a  => Launcher.artistItem(a, root)),
         ...data.albums.map(al => Launcher.albumItem(al, root)),
@@ -69,7 +70,7 @@ Item {
       return []
     }
 
-    if (_client.invalid) {
+    if (client.invalid) {
       return [{
         name: "Invalid configuration",
         description: "Please fill the required informations in the settings",
@@ -113,7 +114,7 @@ Item {
   function playSong(song, mode) {
     launcher?.close()
     pluginApi?.mainInstance?.playSong(
-        _client.streamUrl(song.id),
+        client.streamUrl(song.id),
         mode)
   }
 }

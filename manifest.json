@@ -23,7 +23,8 @@
             "password": "",
             "searchArtists": 3,
             "searchAlbums": 3,
-            "searchSongs": 6
+            "searchSongs": 6,
+            "playlistActions": true
         }
     }
 }

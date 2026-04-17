@@ -7,6 +7,10 @@ export function songItem(song, launcherProvider) {
         isTablerIcon: true,
 
         onActivate: () => {
+            if (!launcherProvider.settings.playlistActions) {
+                launcherProvider.playSong(song)
+                return
+            }
             launcherProvider.updateResults([
                 playItem(() => {
                     launcherProvider.playSong(song)
@@ -31,28 +35,33 @@ export function albumItem(album, launcherProvider) {
         isTablerIcon: true,
 
         onActivate: () => {
-            launcherProvider._client.getAlbum(album.id).then(album => {
+            launcherProvider.client.getAlbum(album.id).then(album => {
                 if (!album.song) {
                     launcherProvider.updateResults([])
                     return;
                 }
 
+                const actions = [playItem(() => {
+                    album.song.forEach((song, i) => {
+                        launcherProvider.playSong(song, i === 0 ? "replace" : "append")
+                    })
+                })];
+                if (launcherProvider.settings.playlistActions) {
+                    actions.push(
+                        playNextItem(() => {
+                            album.song.forEach((song) => {
+                                launcherProvider.playSong(song, "insert-next-play")
+                            })
+                        }),
+                        appendPlaylistItem(() => {
+                            album.song.forEach((song) => {
+                                launcherProvider.playSong(song, "append-play")
+                            })
+                        }))
+                }
+
                 launcherProvider.updateResults([
-                    playItem(() => {
-                        album.song.forEach((song, i) => {
-                            launcherProvider.playSong(song, i === 0 ? "replace" : "append")
-                        })
-                    }),
-                    playNextItem(() => {
-                        album.song.forEach((song) => {
-                            launcherProvider.playSong(song, "insert-next-play")
-                        })
-                    }),
-                    appendPlaylistItem(() => {
-                        album.song.forEach((song) => {
-                            launcherProvider.playSong(song, "append-play")
-                        })
-                    }),
+                    ...actions,
                     ...album.song.map(song => songItem(song, launcherProvider))
                 ])
             })
@@ -69,7 +78,7 @@ export function artistItem(artist, launcherProvider) {
         isTablerIcon: true,
 
         onActivate: () => {
-            launcherProvider._client.getArtist(artist.id).then(artist => {
+            launcherProvider.client.getArtist(artist.id).then(artist => {
                 if (!artist.album) {
                     launcherProvider.updateResults([])
                     return;

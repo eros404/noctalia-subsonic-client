@@ -19,6 +19,8 @@ ColumnLayout {
   property string searchAlbums: _settings.searchAlbums
   property string searchSongs: _settings.searchSongs
 
+  property bool playlistActions: _settings.playlistActions
+
   spacing: Style.marginM
 
   Component.onCompleted: { }
@@ -61,7 +63,7 @@ ColumnLayout {
     Layout.bottomMargin: Style.marginS
   }
 
-  ColumnLayout {
+  RowLayout {
     Layout.fillWidth: true
     spacing: Style.marginS
 
@@ -78,7 +80,7 @@ ColumnLayout {
     }
   }
 
-  ColumnLayout {
+  RowLayout {
     Layout.fillWidth: true
     spacing: Style.marginS
 
@@ -95,7 +97,7 @@ ColumnLayout {
     }
   }
 
-  ColumnLayout {
+  RowLayout {
     Layout.fillWidth: true
     spacing: Style.marginS
 
@@ -112,6 +114,20 @@ ColumnLayout {
     }
   }
 
+  NDivider {
+    Layout.fillWidth: true
+    Layout.topMargin: Style.marginS
+    Layout.bottomMargin: Style.marginS
+  }
+
+  NToggle {
+    Layout.fillWidth: true
+    label: "Enable playlist actions"
+    description: "Show or hide actions 'Play next' and 'Append to playlist'"
+    checked: root.playlistActions
+    onCheckedChanged: root.playlistActions = checked
+  }
+
   // Save function - called by the dialog
   function saveSettings() {
     _settings.serverUrl = root.serverUrl
@@ -122,6 +138,8 @@ ColumnLayout {
     _settings.searchArtists = root.searchArtists
     _settings.searchAlbums = root.searchAlbums
     _settings.searchSongs = root.searchSongs
+
+    _settings.playlistActions = root.playlistActions
 
     _settings.save()
     pluginApi?.mainInstance?.client.refreshSettings()

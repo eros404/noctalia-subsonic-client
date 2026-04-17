@@ -22,7 +22,7 @@ export class SubsonicClient {
         }).then(resp => {
             const sr = resp.searchResult3 ?? {}
             return {
-                artists: sr.artist ?? [],
+                artists: (sr.artist ?? []).filter(a => a.albumCount > 0),
                 albums: sr.album ?? [],
                 songs: sr.song ?? [],
             }

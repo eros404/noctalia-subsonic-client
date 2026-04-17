@@ -4,8 +4,10 @@ export class Manager {
     }
 
     _get(key) {
-        return this._pluginApi?.pluginSettings?.[key] ||
-            this._pluginApi?.manifest?.metadata?.defaultSettings?.[key]
+        const user = this._pluginApi?.pluginSettings?.[key]
+        return user == null
+            ? this._pluginApi?.manifest?.metadata?.defaultSettings?.[key]
+            : user
     }
     _set(key, value) {
         if (this._pluginApi?.pluginSettings) {
@@ -65,5 +67,12 @@ export class Manager {
     }
     set searchSongs(value) {
         this._set('searchSongs', value)
+    }
+
+    get playlistActions() {
+        return this._get('playlistActions')
+    }
+    set playlistActions(value) {
+        this._set('playlistActions', value)
     }
 }
