@@ -53,6 +53,7 @@ export function albumItem(album, launcherProvider) {
                     icon: "player-play",
                     isTablerIcon: true,
                     onActivate: () => {
+                        launcherProvider.clearPlaylist()
                         album.song.forEach((song, i) => {
                             launcherProvider.playSong(song, i === 0 ? "replace" : "append")
                         })

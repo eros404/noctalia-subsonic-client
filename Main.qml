@@ -70,21 +70,37 @@ Item {
 
   function runCommand(command) {
     if (mpvCommand.running) {
-      if (command)
+      if (command) {
         _commandQueue.push(command);
+      }
       
-      if (_commandQueue.length > 0)
+      if (_commandQueue.length > 0) {
         commandTimer.start()
+      }
+      return;
     }
 
-    if (!command)
+    if (_commandQueue.length > 0) {
+      if (command) {
+        _commandQueue.push(command)
+      }
       command = _commandQueue.shift();
-    
-    if (command)
+    }
+
+    if (command) {
+      Logger.i("execute command " + command.command[2])
       mpvCommand.exec(command)
+    }
+
+    if (_commandQueue.length > 0) {
+      commandTimer.start()
+    }
   }
 
   function playSong(url, mode) {
     runCommand(Mpv.commandInit("loadfile", url, mode ?? "replace"))
+  }
+  function clearPlaylist() {
+    runCommand(Mpv.commandInit("playlist-clear"))
   }
 }

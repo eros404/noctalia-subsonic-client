@@ -84,7 +84,7 @@ Item {
 
     var query = searchText.slice(command.length).trim()
 
-    if (!query) return [{
+    if (!query || query.length < 2) return [{
       name: "Type to search…",
       description: "Artists · Albums · Tracks",
       icon: "search",
@@ -118,5 +118,8 @@ Item {
     pluginApi?.mainInstance?.playSong(
         _client.streamUrl(song.id),
         mode)
+  }
+  function clearPlaylist() {
+    pluginApi?.mainInstance?.clearPlaylist()
   }
 }
