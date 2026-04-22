@@ -125,7 +125,9 @@ ColumnLayout {
     label: "Enable playlist actions"
     description: "Show or hide actions 'Play next' and 'Append to playlist'"
     checked: root.playlistActions
-    onCheckedChanged: root.playlistActions = checked
+    onToggled: function(checked) {
+      root.playlistActions = checked
+    }
   }
 
   // Save function - called by the dialog
